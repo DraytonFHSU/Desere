@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://l8i2et335fg6"]
+
+[ext_resource type="Script" path="res://Scripts/health_container.gd" id="1_48r6l"]
+
+[node name="HealthContainer" type="HBoxContainer"]
+script = ExtResource("1_48r6l")
