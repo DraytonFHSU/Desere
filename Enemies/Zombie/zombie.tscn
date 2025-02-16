@@ -1,25 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://dmnd5ns0ir2av"]
+[gd_scene load_steps=14 format=3 uid="uid://dmnd5ns0ir2av"]
 
 [ext_resource type="Texture2D" uid="uid://bhk3s5sxs8krl" path="res://Art/Zombie/Zombie.png" id="1_3ak5v"]
 [ext_resource type="Script" path="res://Enemies/Zombie/zombie.gd" id="1_7g4p6"]
-
-[sub_resource type="Animation" id="Animation_wkk2q"]
-resource_name = "walkDown"
-length = 1.6
-loop_mode = 2
-step = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.8, 1.2, 1.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [1, 2, 3, 4, 5]
-}
+[ext_resource type="AudioStream" uid="uid://bs72cht5w1y65" path="res://Sounds/slice1.wav" id="3_5lpxe"]
 
 [sub_resource type="Animation" id="Animation_4dpjr"]
 length = 0.001
@@ -36,9 +19,9 @@ tracks/0/keys = {
 "values": [0]
 }
 
-[sub_resource type="Animation" id="Animation_uldhu"]
-resource_name = "walkUp"
-length = 1.6
+[sub_resource type="Animation" id="Animation_wkk2q"]
+resource_name = "walkDown"
+length = 1.2
 loop_mode = 2
 step = 0.2
 tracks/0/type = "value"
@@ -48,10 +31,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.8, 1.2, 1.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [8, 9, 10, 11, 12]
+"values": [1, 2, 3]
 }
 
 [sub_resource type="Animation" id="Animation_spcq4"]
@@ -69,7 +52,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [14, 15]
+"values": [10, 11]
 }
 
 [sub_resource type="Animation" id="Animation_gl1ku"]
@@ -87,7 +70,25 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [16, 17]
+"values": [12, 13]
+}
+
+[sub_resource type="Animation" id="Animation_uldhu"]
+resource_name = "walkUp"
+length = 1.2
+loop_mode = 2
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [7, 8, 8]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_voadu"]
@@ -103,22 +104,24 @@ _data = {
 radius = 87.6926
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hrjjg"]
-size = Vector2(17, 23)
+size = Vector2(12, 11)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g2g21"]
-size = Vector2(20, 26.25)
+size = Vector2(12, 11)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7qic8"]
-size = Vector2(27, 34)
+size = Vector2(14, 19)
 
 [node name="Zombie" type="CharacterBody2D"]
 z_index = 1
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_7g4p6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -32)
+position = Vector2(0, -1)
 texture = ExtResource("1_3ak5v")
-hframes = 7
+hframes = 5
 vframes = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -127,16 +130,13 @@ libraries = {
 }
 
 [node name="detectionArea" type="Area2D" parent="."]
-visible = false
-collision_layer = 3
-collision_mask = 3
+collision_layer = 0
 
 [node name="detectionHitbox" type="CollisionShape2D" parent="detectionArea"]
-position = Vector2(4, -28)
 shape = SubResource("CircleShape2D_bqpi5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2, -31)
+position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_hrjjg")
 
 [node name="hitBox" type="Area2D" parent="."]
@@ -144,17 +144,23 @@ collision_layer = 3
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitBox"]
-position = Vector2(2, -31.125)
+position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_g2g21")
 
 [node name="hurtBox" type="Area2D" parent="."]
-collision_layer = 8
+collision_layer = 0
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hurtBox"]
-position = Vector2(2, -31)
+position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_7qic8")
 
-[connection signal="area_entered" from="detectionArea" to="." method="_on_detection_area_area_entered"]
-[connection signal="area_exited" from="detectionArea" to="." method="_on_detection_area_area_exited"]
+[node name="SoundManager" type="Node2D" parent="."]
+
+[node name="hit1" type="AudioStreamPlayer2D" parent="SoundManager"]
+stream = ExtResource("3_5lpxe")
+volume_db = 24.0
+
+[connection signal="body_entered" from="detectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="detectionArea" to="." method="_on_detection_area_body_exited"]
 [connection signal="area_entered" from="hurtBox" to="." method="_on_hurt_box_area_entered"]

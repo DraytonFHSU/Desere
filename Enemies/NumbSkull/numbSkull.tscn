@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://be0qh6ytkw0yn"]
+[gd_scene load_steps=13 format=3 uid="uid://be0qh6ytkw0yn"]
 
 [ext_resource type="Script" path="res://Enemies/NumbSkull/numbSkull.gd" id="1_k7kge"]
 [ext_resource type="Texture2D" uid="uid://becr1886gv4fr" path="res://Art/NumbSkull/Numb Skull.png" id="2_6m0xm"]
+[ext_resource type="AudioStream" uid="uid://bs72cht5w1y65" path="res://Sounds/slice1.wav" id="3_8h7yy"]
 
 [sub_resource type="Animation" id="Animation_7yni1"]
 length = 0.001
@@ -132,7 +133,7 @@ position = Vector2(0, -9)
 shape = SubResource("RectangleShape2D_04tlu")
 
 [node name="hurtBox" type="Area2D" parent="."]
-collision_layer = 8
+collision_layer = 0
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hurtBox"]
@@ -142,5 +143,10 @@ shape = SubResource("RectangleShape2D_50mk6")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -9.5)
 shape = SubResource("RectangleShape2D_ksouc")
+
+[node name="SoundManager" type="Node2D" parent="."]
+
+[node name="hit1" type="AudioStreamPlayer2D" parent="SoundManager"]
+stream = ExtResource("3_8h7yy")
 
 [connection signal="area_entered" from="hurtBox" to="." method="_on_hurt_box_area_entered"]

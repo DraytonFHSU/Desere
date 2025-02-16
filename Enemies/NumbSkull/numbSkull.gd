@@ -47,6 +47,7 @@ func _physics_process(_delta):
 
 func _on_hurt_box_area_entered(area):
 	if area.name=="dashAttack":
+		$SoundManager/hit1.play()
 		health -= 1
 		print_debug(health)
 		if health == 0:

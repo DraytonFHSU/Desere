@@ -1,9 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbwxxmmfrndyu"]
+[gd_scene load_steps=5 format=3 uid="uid://dbwxxmmfrndyu"]
 
 [ext_resource type="Script" path="res://Player/Dash/dash_attack.gd" id="1_1uy34"]
+[ext_resource type="Texture2D" uid="uid://cbic3t65lr2ly" path="res://Art/Player/DashParticle.png" id="2_3e2up"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ckvwp"]
-size = Vector2(21, 31)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_scyvt"]
+size = Vector2(22, 71.25)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_44hk4"]
+particle_flag_disable_z = true
+angle_max = 416.4
+gravity = Vector3(0, 98, 0)
+turbulence_enabled = true
+turbulence_noise_scale = 3.0
 
 [node name="dashAttack" type="Area2D"]
 collision_layer = 8
@@ -13,6 +21,15 @@ script = ExtResource("1_1uy34")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 light_mask = 8
 visibility_layer = 8
-position = Vector2(0, -16)
-shape = SubResource("RectangleShape2D_ckvwp")
+position = Vector2(0, -35.375)
+shape = SubResource("RectangleShape2D_scyvt")
 disabled = true
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+rotation = -3.14159
+process_material = SubResource("ParticleProcessMaterial_44hk4")
+texture = ExtResource("2_3e2up")
+lifetime = 3.0
+preprocess = 6.0
+visibility_rect = Rect2(-11, 0, 22, 70.75)
+local_coords = true
