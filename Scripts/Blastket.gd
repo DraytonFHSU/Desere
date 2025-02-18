@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-class_name Zombie
+class_name Blastket
 
 @export var speed = 2
 @export var limit = 0.5
@@ -8,12 +8,13 @@ class_name Zombie
 @onready var animations = $AnimationPlayer
 
 var target = null
-var health = 4
+var health = 25
 var isDead = false
 
 func update_velocity():
-	if !target: return
-	velocity = (target.position - position) / speed
+	pass
+	#if !target: return
+	#velocity = (target.position + position) / speed
 	
 func updateAnimation():
 	if velocity.length() == 0:
@@ -44,11 +45,6 @@ func _on_hurt_box_area_entered(_area):
 		queue_free()
 
 
-func _on_detection_area_body_entered(body):
+func _on_start_body_entered(body):
 	if body is Player:
 		target = body
-
-
-func _on_detection_area_body_exited(_body):
-	velocity -= velocity
-	target = null

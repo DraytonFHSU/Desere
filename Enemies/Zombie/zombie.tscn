@@ -100,11 +100,11 @@ _data = {
 "walkUp": SubResource("Animation_uldhu")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_bqpi5"]
-radius = 87.6926
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hrjjg"]
 size = Vector2(12, 11)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bqpi5"]
+radius = 87.6926
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g2g21"]
 size = Vector2(12, 11)
@@ -129,15 +129,15 @@ libraries = {
 "": SubResource("AnimationLibrary_voadu")
 }
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_hrjjg")
+
 [node name="detectionArea" type="Area2D" parent="."]
 collision_layer = 0
 
 [node name="detectionHitbox" type="CollisionShape2D" parent="detectionArea"]
 shape = SubResource("CircleShape2D_bqpi5")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 0.5)
-shape = SubResource("RectangleShape2D_hrjjg")
 
 [node name="hitBox" type="Area2D" parent="."]
 collision_layer = 3

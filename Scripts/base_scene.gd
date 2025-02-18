@@ -11,12 +11,13 @@ func _ready():
 		player = scene_manager.player
 		add_child(player)
 	positionPlayer()
+	
 
 func positionPlayer():
 	var last_scene = scene_manager.last_scene_name
 	if last_scene.is_empty():
-		last_scene = "any"
+		last_scene = "spawn"
 	for entrance in entrance_markers.get_children():
-		if entrance is Marker2D and entrance.name=="any" or entrance.name==last_scene:
+		if entrance is Marker2D and entrance.name=="spawn" or entrance.name==last_scene:
 			player.global_position = entrance.global_position
 	

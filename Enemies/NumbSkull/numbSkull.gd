@@ -45,12 +45,11 @@ func _physics_process(_delta):
 	updateAnimation()
 
 
-func _on_hurt_box_area_entered(area):
-	if area.name=="dashAttack":
-		$SoundManager/hit1.play()
-		health -= 1
-		print_debug(health)
-		if health == 0:
-			$hitBox.set_deferred("monitorable", false)
-			isDead=true
-			queue_free()
+func _on_hurt_box_area_entered(_area):
+	#if area.name=="dashAttack":
+	$SoundManager/hit1.play()
+	health -= 1
+	if health == 0:
+		$hitBox.set_deferred("monitorable", false)
+		isDead=true
+		queue_free()

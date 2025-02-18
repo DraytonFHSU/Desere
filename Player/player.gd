@@ -1,6 +1,4 @@
-extends CharacterBody2D
-
-class_name Player
+class_name Player extends CharacterBody2D
 
 signal healthChanged
 
@@ -8,6 +6,7 @@ signal healthChanged
 @export var dashDistance: int = 40
 @onready var animations = $AnimationPlayer
 @onready var hurt = $hurtAnimation
+@onready var hurtBox = $hurtBox
 @onready var hurtTimer = $hurtTimer
 @onready var attack = $attack
 
@@ -18,7 +17,7 @@ signal healthChanged
 
 var lastAnimDirection: String = "Down"
 var isHurt: bool = false
-var enemyCollisions = []
+var attackType: String = "dash"
 var isDashing: bool = false
 
 @export var speed: int = 35
@@ -28,10 +27,12 @@ func handleInput():
 	velocity = moveDirection * speed
 	
 	if Input.is_action_just_pressed("ui_dash"):
-		dashAttack()
+		attackHandler()
 
 #dash movement
-func dashAttack():
+func attackHandler():
+	#if attackType == "dash":
+		#attack.dashAttack()
 	var moveDirection = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	isDashing = true
 	animations.play("dash" + lastAnimDirection)
@@ -45,7 +46,6 @@ func dashAttack():
 	animations.stop()
 	attack.disable()
 	isDashing = false
-		
 	
 func updateAnimation():
 	if isDashing: return
@@ -72,28 +72,23 @@ func _physics_process(_delta):
 	handleCollision()
 	updateAnimation()
 	if !isHurt:
-		for enemyArea in enemyCollisions:
-			hurtByEnemy(enemyArea)
+		for area in hurtBox.get_overlapping_areas():
+			if area.name == "hitBox":
+				hurtByEnemy(area)
 	
 func hurtByEnemy(area):
 	currentHealth -= 1
 	if currentHealth <= 0:
-		currentHealth = maxHealth
-	healthChanged.emit(currentHealth)
+		currentHealth = maxHealth #change to game over
+	healthChanged.emit(currentHealth) #transfer health over to the container
 	isHurt = true
 	knockback(area.get_parent().velocity)
-	hurt.play("hurtBlink")
-	hurtTimer.start()
+	hurt.play("hurtBlink") #Invincibility-frames
+	hurtTimer.start() 
 	await hurtTimer.timeout
 	hurt.play("RESET")
 	isHurt = false
 	
-func _on_hurt_box_area_entered(area):
-	if area.name == "hitBox":
-		enemyCollisions.append(area)
-
-func _on_hurt_box_area_exited(area):
-	enemyCollisions.erase(area)
 	
 func knockback(enemyVelocity: Vector2):
 	var knockbackDirection = (enemyVelocity - velocity).normalized() * knockbackPower

@@ -10,5 +10,5 @@ func _ready():
 	limit_right = worldSizeInPixels.x
 	limit_bottom = worldSizeInPixels.y-16
 
-func _process(delta):
+func _process(_delta):
 	global_position = follow_node.global_position
