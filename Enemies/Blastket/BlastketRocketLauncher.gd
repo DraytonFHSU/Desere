@@ -22,8 +22,6 @@ func Enter():
 	fire_rocket()
 	fire_rocket()
 	fire_rocket()
+
+func Physics_Update(delta: float):
 	Transitioned.emit(self, "idle")
-
-
-#func Physics_Update(delta: float):
-	#Transitioned.emit(self, "idle")

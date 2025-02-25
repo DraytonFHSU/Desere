@@ -252,11 +252,13 @@ position = Vector2(5, 9)
 
 [node name="stateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("4_w15ma")
-initial_state = NodePath("rocketlauncher")
+initial_state = NodePath("idle")
 
 [node name="idle" type="Node" parent="stateMachine" node_paths=PackedStringArray("enemy")]
 script = ExtResource("5_citd7")
 enemy = NodePath("../..")
+
+[node name="CooldownTimer" type="Timer" parent="stateMachine/idle"]
 
 [node name="position" type="Node" parent="stateMachine" node_paths=PackedStringArray("enemy")]
 script = ExtResource("6_5b34w")
@@ -274,3 +276,4 @@ wait_time = 10.0
 
 [connection signal="area_entered" from="hurtBox" to="." method="_on_hurt_box_area_entered"]
 [connection signal="body_entered" from="Start" to="." method="_on_start_body_entered"]
+[connection signal="timeout" from="stateMachine/idle/CooldownTimer" to="stateMachine/idle" method="_on_cooldown_timer_timeout"]
