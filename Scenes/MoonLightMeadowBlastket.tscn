@@ -1,11 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://ecb101wgql0o"]
+[gd_scene load_steps=12 format=3 uid="uid://ecb101wgql0o"]
 
 [ext_resource type="Script" path="res://Scripts/base_scene.gd" id="1_d0fxf"]
 [ext_resource type="Texture2D" uid="uid://ck8utj736yiuf" path="res://Art/World (Tilesets)/Environment-V3.png" id="2_n2us5"]
 [ext_resource type="Texture2D" uid="uid://bjy3bvyivw5fp" path="res://Art/World (Tilesets)/Decor-V1.png" id="3_ah3le"]
 [ext_resource type="PackedScene" uid="uid://i08so72n5lu5" path="res://Scenes/scene_trigger.tscn" id="3_mlh7d"]
 [ext_resource type="PackedScene" uid="uid://l8i2et335fg6" path="res://Scenes/health_container.tscn" id="4_hbifn"]
-[ext_resource type="PackedScene" uid="uid://dpnth2dk27xsb" path="res://Scenes/Blastket.tscn" id="4_hc8dv"]
+[ext_resource type="PackedScene" uid="uid://dpnth2dk27xsb" path="res://Enemies/Blastket/Blastket.tscn" id="4_hc8dv"]
+[ext_resource type="Script" path="res://Scripts/FollowCam.gd" id="7_ejt0g"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7it84"]
 texture = ExtResource("2_n2us5")
@@ -380,7 +381,7 @@ position = Vector2(321, 153)
 connected_scene = "MoonLightMeadow2"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTrigger"]
-position = Vector2(320.5, 434.5)
+position = Vector2(322, 433)
 shape = SubResource("RectangleShape2D_pgvrr")
 
 [node name="EntranceMarkers" type="Node2D" parent="."]
@@ -392,3 +393,11 @@ position = Vector2(321, 394)
 
 [node name="HealthContainer" parent="CanvasLayer" instance=ExtResource("4_hbifn")]
 metadata/_edit_use_anchors_ = true
+
+[node name="followCam" type="Camera2D" parent="." node_paths=PackedStringArray("tilemap")]
+position = Vector2(100, 79)
+zoom = Vector2(0.5, 0.5)
+limit_left = 0
+limit_top = 0
+script = ExtResource("7_ejt0g")
+tilemap = NodePath("../TileMap")

@@ -383,7 +383,7 @@ layer_0/tile_data = PackedInt32Array(65536, 1, 1, 196608, 1, 1, 65540, 262145, 0
 layer_1/name = "Decor"
 layer_1/y_sort_enabled = true
 layer_1/z_index = 1
-layer_1/tile_data = PackedInt32Array(458757, 0, 8, 196619, 393216, 4, 65544, 262144, 8, 262158, 262144, 8, 131091, 393216, 4, 65538, 131072, 8, 1048576, 393216, 4, 1048593, 393216, 4, 851992, 262144, 8, 720922, 262144, 8, 524326, 262144, 8)
+layer_1/tile_data = PackedInt32Array(458757, 0, 8, 196619, 393216, 4, 65544, 262144, 8, 262158, 262144, 8, 131091, 393216, 4, 65538, 131072, 8, 1048576, 393216, 4, 1048593, 393216, 4, 851992, 262144, 8, 720922, 262144, 8, 524326, 262144, 8, -65509, 262144, 8)
 
 [node name="NumbSkull" parent="TileMap" node_paths=PackedStringArray("endPoint") instance=ExtResource("4_rwl4h")]
 position = Vector2(340, 92)
@@ -394,6 +394,9 @@ position = Vector2(0, 30)
 
 [node name="Zombie" parent="TileMap" instance=ExtResource("5_odq8g")]
 position = Vector2(486, 90)
+
+[node name="Blastket" parent="TileMap" instance=ExtResource("6_1wapn")]
+position = Vector2(563, 242)
 
 [node name="SceneTrigger" parent="." instance=ExtResource("9_4k4uq")]
 position = Vector2(686, 112)
@@ -412,12 +415,7 @@ collision_mask = 6
 
 [node name="HealthContainer" parent="Player/CanvasLayer" instance=ExtResource("6_5b0bw")]
 
-[node name="EntranceMarkers" type="Node2D" parent="."]
-
-[node name="MoonLight2" type="Marker2D" parent="EntranceMarkers"]
-position = Vector2(661, 112)
-
-[node name="FollowCam" type="Camera2D" parent="." node_paths=PackedStringArray("tilemap")]
+[node name="FollowCam" type="Camera2D" parent="." node_paths=PackedStringArray("tilemap", "follow_node")]
 position = Vector2(99, 57)
 zoom = Vector2(0.5, 0.5)
 limit_left = 0
@@ -432,8 +430,9 @@ drag_right_margin = 0.1
 drag_bottom_margin = 0.1
 script = ExtResource("3_jt4or")
 tilemap = NodePath("../TileMap")
+follow_node = NodePath("../Player")
 
-[node name="Blastket" parent="." instance=ExtResource("6_1wapn")]
-position = Vector2(553, 236)
+[node name="EntranceMarkers" type="Node2D" parent="."]
 
-[connection signal="ready" from="Player" to="." method="_on_player_ready"]
+[node name="MoonLight2" type="Marker2D" parent="EntranceMarkers"]
+position = Vector2(661, 112)

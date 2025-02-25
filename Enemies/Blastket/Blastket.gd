@@ -1,5 +1,4 @@
 extends CharacterBody2D
-
 class_name Blastket
 
 @export var speed = 2
@@ -11,11 +10,19 @@ var target = null
 var health = 25
 var isDead = false
 
-func update_velocity():
+#empty functions for state switching
+func position():
 	pass
-	#if !target: return
-	#velocity = (target.position + position) / speed
-	
+
+func minigun():
+	pass
+
+func flamethrower():
+	pass
+
+func idle():
+	pass
+
 func updateAnimation():
 	if velocity.length() == 0:
 		if animations.is_playing():
@@ -31,7 +38,7 @@ func updateAnimation():
 
 func _physics_process(_delta):
 	if isDead: return
-	update_velocity()
+	position()
 	move_and_slide()
 	updateAnimation()
 

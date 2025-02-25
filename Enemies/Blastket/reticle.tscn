@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://hkrl0u3gyc3y"]
+
+[ext_resource type="Texture2D" uid="uid://dqcilj8l0ym1x" path="res://Art/Blastket/Reticle.png" id="1_dw4at"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3oa5e"]
+size = Vector2(11, 11)
+
+[node name="Area2D" type="Area2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_dw4at")
+vframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3oa5e")
+
+[node name="Marker2D" type="Marker2D" parent="."]

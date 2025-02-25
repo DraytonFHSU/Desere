@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://hne58nb4h1ma"]
+[gd_scene load_steps=14 format=3 uid="uid://hne58nb4h1ma"]
 
 [ext_resource type="Script" path="res://Scripts/base_scene.gd" id="1_38juj"]
 [ext_resource type="Texture2D" uid="uid://bjy3bvyivw5fp" path="res://Art/World (Tilesets)/Decor-V1.png" id="1_ytmgr"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dmnd5ns0ir2av" path="res://Enemies/Zombie/zombie.tscn" id="5_tq3w0"]
 [ext_resource type="Script" path="res://Scripts/SceneTrigger.gd" id="6_hjerb"]
 [ext_resource type="PackedScene" uid="uid://l8i2et335fg6" path="res://Scenes/health_container.tscn" id="6_kayqx"]
+[ext_resource type="Script" path="res://Scripts/FollowCam.gd" id="8_5b7ku"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_53gvq"]
 texture = ExtResource("1_ytmgr")
@@ -431,5 +432,13 @@ position = Vector2(288, 12)
 
 [node name="HealthContainer" parent="CanvasLayer" instance=ExtResource("6_kayqx")]
 metadata/_edit_use_anchors_ = true
+
+[node name="FollowCam" type="Camera2D" parent="." node_paths=PackedStringArray("tilemap")]
+position = Vector2(124, 70)
+zoom = Vector2(0.5, 0.5)
+limit_left = 0
+limit_top = 0
+script = ExtResource("8_5b7ku")
+tilemap = NodePath("../TileMap")
 
 [connection signal="body_entered" from="BlastketSceneTrigger" to="BlastketSceneTrigger" method="_on_body_entered"]

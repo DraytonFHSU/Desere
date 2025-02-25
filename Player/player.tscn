@@ -272,7 +272,7 @@ _data = {
 "hurtBlink": SubResource("Animation_nn7nf")
 }
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 texture_filter = 1
 collision_layer = 17
 script = ExtResource("1_2c7p4")
@@ -281,7 +281,7 @@ speed = 90
 [node name="attack" type="Node2D" parent="."]
 script = ExtResource("3_0ke2h")
 
-[node name="dashAttack" parent="attack" instance=ExtResource("3_80to3")]
+[node name="spinningDashAttack" parent="attack" instance=ExtResource("4_csxoq")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 clip_children = 2
@@ -332,7 +332,7 @@ volume_db = 10.0
 [node name="tempDisable" type="Node" parent="."]
 process_mode = 4
 
-[node name="spinningDashAttack" parent="tempDisable" instance=ExtResource("4_csxoq")]
+[node name="dashAttack" parent="tempDisable" instance=ExtResource("3_80to3")]
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="area_entered" from="hurtBox" to="." method="_on_hurt_box_area_entered"]
