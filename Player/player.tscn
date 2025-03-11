@@ -1,8 +1,8 @@
 [gd_scene load_steps=22 format=3 uid="uid://dt17otd3o4hi5"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_2c7p4"]
+[ext_resource type="Script" path="res://Player/playerAttack.gd" id="2_kcvtg"]
 [ext_resource type="Texture2D" uid="uid://df5nankuxmk2f" path="res://Art/Player/16x16DesereV2.png" id="2_qokcj"]
-[ext_resource type="Script" path="res://Player/attack.gd" id="3_0ke2h"]
 [ext_resource type="PackedScene" uid="uid://dbwxxmmfrndyu" path="res://Player/Dash/dash_attack.tscn" id="3_80to3"]
 [ext_resource type="PackedScene" uid="uid://c7po2ok4tuv8" path="res://Player/Dash/spinning_dash_attack.tscn" id="4_csxoq"]
 [ext_resource type="AudioStream" uid="uid://cwjowkevrtgue" path="res://Sounds/dash1.wav" id="5_gw4xp"]
@@ -279,9 +279,12 @@ script = ExtResource("1_2c7p4")
 speed = 90
 
 [node name="attack" type="Node2D" parent="."]
-script = ExtResource("3_0ke2h")
+script = ExtResource("2_kcvtg")
 
 [node name="spinningDashAttack" parent="attack" instance=ExtResource("4_csxoq")]
+
+[node name="dashAttack" parent="attack" instance=ExtResource("3_80to3")]
+process_mode = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 clip_children = 2
@@ -328,11 +331,6 @@ one_shot = true
 [node name="dash1" type="AudioStreamPlayer2D" parent="SoundManager"]
 stream = ExtResource("5_gw4xp")
 volume_db = 10.0
-
-[node name="tempDisable" type="Node" parent="."]
-process_mode = 4
-
-[node name="dashAttack" parent="tempDisable" instance=ExtResource("3_80to3")]
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="area_entered" from="hurtBox" to="." method="_on_hurt_box_area_entered"]

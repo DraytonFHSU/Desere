@@ -6,15 +6,19 @@ class_name BlasketPosition
 var player: Player
 
 func Enter():
-	print_debug("entered!")
 	player = get_tree().get_first_node_in_group("Player")
 
-func Physics_Update(delta: float):
-	#player = get_tree().get_first_node_in_group("Player") #dupe code because causes glitch otherwise? #but now its not doing that?
+func Physics_Update(_delta: float):
 	var direction = player.global_position - enemy.global_position
-	if direction.length() <= 150:
+	#check move away from player if they are close, towards if far away
+	#I considered Match statements, as they are supposed to work like switches, 
+	#but they don't appear to like comparision operators
+	if direction.length() <= 125:
+		enemy.velocity = direction.normalized() * move_speed * -1.5
+	elif direction.length() <= 170 and direction.length()>125:
+		enemy.velocity *= 0
 		Transitioned.emit(self, "rocketlauncher")
-	if direction.length() > 150:
+	elif direction.length() > 170:
 		enemy.velocity = direction.normalized() * move_speed
 	else:
 		enemy.velocity = Vector2()

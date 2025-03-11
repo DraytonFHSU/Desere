@@ -5,8 +5,9 @@
 
 [node name="heartGui" type="Panel"]
 self_modulate = Color(1, 1, 1, 0)
-offset_right = 64.0
-offset_bottom = 30.0
+custom_minimum_size = Vector2(5, 5)
+offset_right = 13.0
+offset_bottom = 14.0
 script = ExtResource("1_fh5s4")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

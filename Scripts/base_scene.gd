@@ -4,7 +4,6 @@ class_name BaseScene extends Node
 @onready var entrance_markers: Node2D = $EntranceMarkers
 
 func _ready():
-	player = get_tree().get_first_node_in_group("Player")
 	if scene_manager.player:
 		if player:
 			player.queue_free()

@@ -13,7 +13,7 @@ signal healthChanged
 @export var dashDistance: int = 40
 @export var maxHealth: int = 6
 @onready var currentHealth: int = maxHealth
-@export var knockbackPower: int = 2000
+@export var knockbackPower: int = 100
 @export var speed: int = 35
 
 #various variables used in functions
@@ -22,9 +22,11 @@ var isHurt: bool = false
 var attackType: String = "dash"
 var isDashing: bool = false
 
+var moveDirection
+
 #normal movement
 func handleInput():
-	var moveDirection = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").normalized() #get 
+	moveDirection = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").normalized() #get 
 	velocity = moveDirection * speed
 	
 	if Input.is_action_just_pressed("ui_dash"):
@@ -34,7 +36,6 @@ func handleInput():
 func attackHandler():
 	#if attackType == "dash":
 		#attack.dashAttack()
-	var moveDirection = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	isDashing = true
 	animations.play("dash" + lastAnimDirection)
 	$SoundManager/dash1.play()
@@ -74,7 +75,7 @@ func _physics_process(_delta):
 	updateAnimation()
 	if !isHurt:
 		for area in hurtBox.get_overlapping_areas():
-			if area.name == "hitBox":
+			if area.name == "hitBox" or area.has_method("attack"):
 				hurtByEnemy(area)
 	
 func hurtByEnemy(area):
@@ -83,7 +84,7 @@ func hurtByEnemy(area):
 		currentHealth = maxHealth #change to game over
 	healthChanged.emit(currentHealth) #transfer health over to the container
 	isHurt = true
-	knockback(area.get_parent().velocity)
+	knockback(area.global_position)
 	hurt.play("hurtBlink") #Invincibility-frames
 	hurtTimer.start() 
 	await hurtTimer.timeout
@@ -91,7 +92,12 @@ func hurtByEnemy(area):
 	isHurt = false
 	
 	
-func knockback(enemyVelocity: Vector2):
-	var knockbackDirection = (enemyVelocity - velocity).normalized() * knockbackPower
+func knockback(enemy_position):
+	var knockbackDirection = (enemy_position - global_position)* -1 * knockbackPower
 	velocity = knockbackDirection 
 	move_and_slide()
+
+
+func _on_hurt_box_area_entered(area):
+	if area.has_method("collect"):
+		area.collect()

@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://cdl8jwoo1fm0x"]
+
+[ext_resource type="PackedScene" uid="uid://dyh6ekd3l8ik0" path="res://Collectables/collectible.tscn" id="1_gw81r"]
+[ext_resource type="Script" path="res://Collectables/batBladeCollectable.gd" id="2_4acoy"]
+[ext_resource type="Texture2D" uid="uid://5huc2hjnvhtd" path="res://Art/Player/batBlade.png" id="3_a678c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7w07d"]
+resource_local_to_scene = true
+size = Vector2(8, 8)
+
+[node name="collectible" instance=ExtResource("1_gw81r")]
+script = ExtResource("2_4acoy")
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_7w07d")
+
+[node name="Sprite2D" parent="." index="1"]
+texture = ExtResource("3_a678c")

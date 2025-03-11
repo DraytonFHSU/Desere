@@ -9,19 +9,7 @@ class_name Blastket
 var target = null
 var health = 25
 var isDead = false
-
-#empty functions for state switching
-func position():
-	pass
-
-func minigun():
-	pass
-
-func flamethrower():
-	pass
-
-func idle():
-	pass
+var isStunned = false
 
 func updateAnimation():
 	if velocity.length() == 0:
@@ -30,21 +18,19 @@ func updateAnimation():
 			animations.stop()
 	else:
 		var direction = "Down"
-		#if velocity.x < 0: direction = "Left"
-		#elif velocity.x > 0: direction = "Right"
 		if velocity.y < 0: direction = "Up"
 		
 		animations.play("walk" + direction) #Corresponds to walkDown animation, etc.
 
 func _physics_process(_delta):
 	if isDead: return
-	position()
 	move_and_slide()
 	updateAnimation()
 
 func _on_hurt_box_area_entered(_area):
 	$SoundManager/hit1.play()
 	health -= 1
+	#isStunned.emit()
 	print_debug(health)
 	if health == 0:
 		$hitBox.set_deferred("monitorable", false)
@@ -52,6 +38,7 @@ func _on_hurt_box_area_entered(_area):
 		queue_free()
 
 
-func _on_start_body_entered(body):
-	if body is Player:
-		target = body
+#func _on_start_body_entered(body):
+	#if body is Player:
+		#target = body
+

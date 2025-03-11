@@ -8,7 +8,7 @@ func _ready():
 	player = get_tree().get_first_node_in_group("Player")
 	super()
 	camera.follow_node = player
-	heartsContainer.setMaxHearts(player.maxHealth)
+	heartsContainer.setMaxHearts(player.maxHealth) #set up health
 	heartsContainer.updateHearts(player.currentHealth)
 	player.healthChanged.connect(heartsContainer.updateHearts)
-	player.attack.disable()
+	player.attack.disable() #or else it starts active in a bugged state

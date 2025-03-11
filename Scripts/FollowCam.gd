@@ -12,8 +12,7 @@ func _ready():
 	limit_bottom = worldSizeInPixels.y
 
 func _process(_delta):
-	#get player from group (otherwise this is null :sad_face:   )
-	#you have no idea how much effort this took to fix
+	#get player from group 
 	follow_node = get_tree().get_first_node_in_group("Player") 
 	global_position = follow_node.global_position
 

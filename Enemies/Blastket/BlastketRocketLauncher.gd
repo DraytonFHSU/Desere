@@ -5,23 +5,22 @@ class_name BlasketRocketLauncher
 @export var rocket : PackedScene
 
 var player: CharacterBody2D
+var coolDownDone = false
 
 func fire_rocket():
 	var rocket_instance = rocket.instantiate()
 	add_child(rocket_instance)
 	var aim_node = enemy.get_node("aim")
-	rocket_instance.global_position = aim_node.global_position+Vector2(randf_range(-10, 10), randf_range(-10, 10))
-	
-	print_debug(rocket_instance.position)
+	rocket_instance.global_position = aim_node.global_position
+	rocket_instance.updateDirection(player)
 
 func Enter():
 	#print_debug("1")
 	player = get_tree().get_first_node_in_group("Player")
 	var animation = enemy.get_node("AnimationPlayer")
-	fire_rocket()
-	fire_rocket()
-	fire_rocket()
-	fire_rocket()
-
-func Physics_Update(delta: float):
+	animation.play("shootDown")
+	for i in range(4):
+		fire_rocket()
+		$rocketCooldown.start()
+		await $rocketCooldown.timeout #using await here since I don't have to run anything else
 	Transitioned.emit(self, "idle")

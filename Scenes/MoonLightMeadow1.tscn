@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b0euxsb7kxos"]
+[gd_scene load_steps=17 format=3 uid="uid://b0euxsb7kxos"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_ryha2"]
 [ext_resource type="Texture2D" uid="uid://ck8utj736yiuf" path="res://Art/World (Tilesets)/Environment-V3.png" id="2_6peu7"]
@@ -7,9 +7,10 @@
 [ext_resource type="Script" path="res://Scripts/FollowCam.gd" id="3_jt4or"]
 [ext_resource type="PackedScene" uid="uid://be0qh6ytkw0yn" path="res://Enemies/NumbSkull/numbSkull.tscn" id="4_rwl4h"]
 [ext_resource type="PackedScene" uid="uid://dmnd5ns0ir2av" path="res://Enemies/Zombie/zombie.tscn" id="5_odq8g"]
-[ext_resource type="PackedScene" uid="uid://dpnth2dk27xsb" path="res://Enemies/Blastket/Blastket.tscn" id="6_1wapn"]
 [ext_resource type="PackedScene" uid="uid://l8i2et335fg6" path="res://Scenes/health_container.tscn" id="6_5b0bw"]
+[ext_resource type="Script" path="res://saveGame.gd" id="6_clcph"]
 [ext_resource type="PackedScene" uid="uid://i08so72n5lu5" path="res://Scenes/scene_trigger.tscn" id="9_4k4uq"]
+[ext_resource type="PackedScene" uid="uid://cdl8jwoo1fm0x" path="res://Collectables/batBladeCollectable.tscn" id="11_42x7q"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ycl7q"]
 texture = ExtResource("2_b5w7v")
@@ -24,7 +25,7 @@ texture = ExtResource("2_b5w7v")
 2:8/0/texture_origin = Vector2i(-8, 0)
 2:8/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 2:8/0/physics_layer_0/angular_velocity = 0.0
-2:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(6.375, 4.75, 9.875, 5, 10, 16.75, 5.75, 15.5)
+2:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(23.875, 4, 21.75, 6.125, -5.875, 5.875, -8, 3.75)
 4:8/size_in_atlas = Vector2i(2, 2)
 4:8/0 = 0
 4:8/0/texture_origin = Vector2i(-8, 8)
@@ -367,7 +368,11 @@ terrain_set_0/terrain_1/color = Color(0.133333, 0.141176, 1, 1)
 sources/1 = SubResource("TileSetAtlasSource_gmrq6")
 sources/0 = SubResource("TileSetAtlasSource_ycl7q")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_45a01"]
+size = Vector2(46.5, 45.75)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k1s34"]
+size = Vector2(22, 23)
 
 [node name="MoonLight1" type="Node2D"]
 y_sort_enabled = true
@@ -395,17 +400,34 @@ position = Vector2(0, 30)
 [node name="Zombie" parent="TileMap" instance=ExtResource("5_odq8g")]
 position = Vector2(486, 90)
 
+[node name="Area2D" type="Area2D" parent="TileMap"]
+position = Vector2(48, 27)
+script = ExtResource("6_clcph")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TileMap/Area2D"]
+z_index = 1
+position = Vector2(0.75, -0.875)
+shape = SubResource("RectangleShape2D_45a01")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(2, -1)
+polygon = PackedVector2Array(670, 2, 670, 100, 693, 99, 692, 124, 670, 123, 672, 289, -2, 290, -2, 1, 668, 1, 668, -19, -16, -18, -18, 298, 698, 296, 694, 3)
+
 [node name="SceneTrigger" parent="." instance=ExtResource("9_4k4uq")]
 position = Vector2(686, 112)
 connected_scene = "MoonLightMeadow2"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SceneTrigger"]
-position = Vector2(-2, 0)
+position = Vector2(-3, 1.5)
 shape = SubResource("RectangleShape2D_k1s34")
 
 [node name="Player" parent="." instance=ExtResource("2_qyc40")]
 z_index = 1
-position = Vector2(598, 81)
+position = Vector2(138, 91)
 collision_mask = 6
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Player"]
@@ -413,9 +435,10 @@ collision_mask = 6
 [node name="HealthContainer" parent="Player/CanvasLayer" instance=ExtResource("6_5b0bw")]
 
 [node name="EntranceMarkers" type="Node2D" parent="."]
+position = Vector2(656, 111)
 
 [node name="MoonLight2" type="Marker2D" parent="EntranceMarkers"]
-position = Vector2(661, 112)
+position = Vector2(1, 1)
 
 [node name="FollowCam" type="Camera2D" parent="." node_paths=PackedStringArray("tilemap")]
 position = Vector2(99, 57)
@@ -433,7 +456,8 @@ drag_bottom_margin = 0.1
 script = ExtResource("3_jt4or")
 tilemap = NodePath("../TileMap")
 
-[node name="Blastket" parent="." instance=ExtResource("6_1wapn")]
-position = Vector2(553, 236)
+[node name="collectible" parent="." instance=ExtResource("11_42x7q")]
+position = Vector2(233, 154)
 
+[connection signal="body_entered" from="TileMap/Area2D" to="TileMap/Area2D" method="_on_body_entered"]
 [connection signal="ready" from="Player" to="." method="_on_player_ready"]

@@ -15,9 +15,9 @@ func randomize_wander():
 	wander_time = randf_range(1,3)
 
 func Enter():
-	$CooldownTimer.start()
+	$idleCooldown.start()
+	#await $rocketCooldown.timeout
 	coolDownDone = false
-	player = get_tree().get_first_node_in_group("Player")
 	randomize_wander()
 
 func Update(delta:float):
@@ -27,10 +27,11 @@ func Update(delta:float):
 	else:
 		randomize_wander()
 
-func Physics_Update(delta: float):
+func Physics_Update(_delta: float):
 	if enemy:
 		enemy.velocity = move_direction * move_speed
 	if coolDownDone:
+		player = get_tree().get_first_node_in_group("Player")
 		var direction = player.global_position - enemy.global_position
 		if direction.length() < 300:
 			Transitioned.emit(self, "position")
