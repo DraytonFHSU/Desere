@@ -7,6 +7,7 @@ var player: Player
 
 func Enter():
 	player = get_tree().get_first_node_in_group("Player")
+	$"../../AnimationPlayer".play("walkDown")
 
 func Physics_Update(_delta: float):
 	var direction = player.global_position - enemy.global_position
@@ -17,6 +18,7 @@ func Physics_Update(_delta: float):
 		enemy.velocity = direction.normalized() * move_speed * -1.5
 	elif direction.length() <= 170 and direction.length()>125:
 		enemy.velocity *= 0
+		$"../../AnimationPlayer".stop()
 		Transitioned.emit(self, "rocketlauncher")
 	elif direction.length() > 170:
 		enemy.velocity = direction.normalized() * move_speed

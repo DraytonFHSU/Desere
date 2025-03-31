@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://btfolqrfc8pyh"]
+
+[ext_resource type="Script" path="res://Scripts/levelNameCard.gd" id="1_m4lsi"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+process_mode = 4
+script = ExtResource("1_m4lsi")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -25.0
+offset_right = 150.0
+offset_bottom = 25.0
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="worldName" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Moonlight Meadow"
+
+[node name="sceneName" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="visibleTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="visibleTimer" to="." method="_on_visible_timer_timeout"]

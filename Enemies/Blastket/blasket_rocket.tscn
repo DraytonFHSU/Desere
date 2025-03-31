@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://d0ouel0mb6ldj"]
+[gd_scene load_steps=8 format=3 uid="uid://d0ouel0mb6ldj"]
 
 [ext_resource type="Script" path="res://Enemies/Blastket/blasket_rocket.gd" id="1_1o3qc"]
 [ext_resource type="Texture2D" uid="uid://7mvfd7wkbuh" path="res://Art/Blastket/Missile.png" id="1_oll47"]
+[ext_resource type="AudioStream" uid="uid://dxubww0taigoq" path="res://Sounds/rocketWoosh.wav" id="3_uruva"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uamit"]
 size = Vector2(10, 12)
@@ -54,13 +55,19 @@ position = Vector2(2, 0)
 shape = SubResource("RectangleShape2D_uamit")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
 rotation = 1.5708
 texture = ExtResource("1_oll47")
 hframes = 3
-
-[node name="Timer" type="Timer" parent="."]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_n6hyl")
 }
+
+[node name="SoundManager" type="Node2D" parent="."]
+visible = false
+
+[node name="rocketWoosh" type="AudioStreamPlayer2D" parent="SoundManager"]
+stream = ExtResource("3_uruva")
+volume_db = -10.0

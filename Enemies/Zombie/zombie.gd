@@ -35,6 +35,7 @@ func _physics_process(_delta):
 	updateAnimation()
 
 func _on_hurt_box_area_entered(_area):
+	$SoundManager/hit1.pitch_scale = randf_range(1, 0.9)
 	$SoundManager/hit1.play()
 	health -= 1
 	if health == 0:
@@ -46,6 +47,8 @@ func _on_hurt_box_area_entered(_area):
 func _on_detection_area_body_entered(body):
 	if body is Player:
 		target = body
+		$SoundManager/zombieAggro.pitch_scale = randf_range(1, 0.9)
+		$SoundManager/zombieAggro.play()
 
 
 func _on_detection_area_body_exited(_body):

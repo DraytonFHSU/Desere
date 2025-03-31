@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://dmnd5ns0ir2av"]
+[gd_scene load_steps=15 format=3 uid="uid://dmnd5ns0ir2av"]
 
 [ext_resource type="Texture2D" uid="uid://bhk3s5sxs8krl" path="res://Art/Zombie/Zombie.png" id="1_3ak5v"]
 [ext_resource type="Script" path="res://Enemies/Zombie/zombie.gd" id="1_7g4p6"]
 [ext_resource type="AudioStream" uid="uid://bs72cht5w1y65" path="res://Sounds/slice1.wav" id="3_5lpxe"]
+[ext_resource type="AudioStream" uid="uid://nbomwwiee5s4" path="res://Sounds/zombieAggro.wav" id="4_ilh50"]
 
 [sub_resource type="Animation" id="Animation_4dpjr"]
 length = 0.001
@@ -160,6 +161,10 @@ shape = SubResource("RectangleShape2D_7qic8")
 [node name="hit1" type="AudioStreamPlayer2D" parent="SoundManager"]
 stream = ExtResource("3_5lpxe")
 volume_db = 24.0
+
+[node name="zombieAggro" type="AudioStreamPlayer2D" parent="SoundManager"]
+stream = ExtResource("4_ilh50")
+volume_db = -10.0
 
 [connection signal="body_entered" from="detectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="detectionArea" to="." method="_on_detection_area_body_exited"]

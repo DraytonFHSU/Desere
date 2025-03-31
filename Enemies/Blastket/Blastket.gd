@@ -11,23 +11,15 @@ var health = 25
 var isDead = false
 var isStunned = false
 
-func updateAnimation():
-	if velocity.length() == 0:
-		if animations.is_playing():
-			animations.play("RESET")
-			animations.stop()
-	else:
-		var direction = "Down"
-		if velocity.y < 0: direction = "Up"
-		
-		animations.play("walk" + direction) #Corresponds to walkDown animation, etc.
+#animation handled by individiual states
 
 func _physics_process(_delta):
 	if isDead: return
 	move_and_slide()
-	updateAnimation()
+	#updateAnimation()
 
 func _on_hurt_box_area_entered(_area):
+	$SoundManager/hit1.pitch_scale = randf_range(1, 0.9)
 	$SoundManager/hit1.play()
 	health -= 1
 	#isStunned.emit()

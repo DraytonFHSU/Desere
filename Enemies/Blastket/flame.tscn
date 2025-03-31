@@ -1,15 +1,66 @@
-[gd_scene load_steps=3 format=3 uid="uid://0ppse44ty2su"]
+[gd_scene load_steps=7 format=3 uid="uid://0ppse44ty2su"]
 
 [ext_resource type="Texture2D" uid="uid://cjsqif2qx0ilf" path="res://Art/Blastket/Flame.png" id="1_pbhvd"]
+[ext_resource type="Script" path="res://Enemies/Blastket/blasket_flame.gd" id="1_yuuvd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ev8yq"]
 size = Vector2(6, 6)
 
-[node name="Area2D" type="Area2D"]
+[sub_resource type="Animation" id="Animation_4xmsp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_kc31b"]
+resource_name = "flicker"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [2, 1, 2, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_be0w7"]
+_data = {
+"RESET": SubResource("Animation_4xmsp"),
+"flicker": SubResource("Animation_kc31b")
+}
+
+[node name="Area2D" type="Area2D" groups=["projectile"]]
+script = ExtResource("1_yuuvd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ev8yq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
 texture = ExtResource("1_pbhvd")
 hframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_be0w7")
+}
+
+[node name="disappear" type="Timer" parent="."]
+wait_time = 2.0
+
+[connection signal="timeout" from="disappear" to="." method="_on_disappear_timeout"]

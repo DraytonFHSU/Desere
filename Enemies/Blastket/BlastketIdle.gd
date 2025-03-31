@@ -15,9 +15,13 @@ func randomize_wander():
 	wander_time = randf_range(1,3)
 
 func Enter():
+	print_debug("start idle")
 	$idleCooldown.start()
-	#await $rocketCooldown.timeout
+	$"../../AnimationPlayer".play("idleDown")
 	coolDownDone = false
+	await $idleCooldown.timeout
+	coolDownDone = true
+	print_debug("stop idle idle")
 	randomize_wander()
 
 func Update(delta:float):
@@ -28,13 +32,12 @@ func Update(delta:float):
 		randomize_wander()
 
 func Physics_Update(_delta: float):
-	if enemy:
-		enemy.velocity = move_direction * move_speed
+	#if enemy:
+		#enemy.velocity = move_direction * move_speed
 	if coolDownDone:
-		player = get_tree().get_first_node_in_group("Player")
-		var direction = player.global_position - enemy.global_position
-		if direction.length() < 300:
-			Transitioned.emit(self, "position")
+		coolDownDone = false
+		$"../../AnimationPlayer".stop()
+		Transitioned.emit(self, "position")
 
 
 func _on_cooldown_timer_timeout():

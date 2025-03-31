@@ -11,4 +11,3 @@ func _ready():
 	heartsContainer.setMaxHearts(player.maxHealth) #set up health
 	heartsContainer.updateHearts(player.currentHealth)
 	player.healthChanged.connect(heartsContainer.updateHearts)
-	player.attack.disable() #or else it starts active in a bugged state

@@ -14,8 +14,11 @@ func updateDirection(player):
 	look_at(target)
 	direction = Vector2.RIGHT.rotated(rotation)
 	$AnimationPlayer.play("rocket")
+	$SoundManager/rocketWoosh.pitch_scale = randf_range(1, 0.9)
+	$SoundManager/rocketWoosh.play()
 
 #used to check if this is an attack
 #admittedly a bit scuffed, but fixes my hitbox bug for now
 func attack():
 	pass 
+

@@ -2,6 +2,7 @@ class_name BaseScene extends Node
 
 @onready var player: Player
 @onready var entrance_markers: Node2D = $EntranceMarkers
+@export var levelName: String
 
 func _ready():
 	if scene_manager.player:

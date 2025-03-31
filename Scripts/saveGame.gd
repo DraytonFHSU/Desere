@@ -18,5 +18,5 @@ func load_data():
 	file.store_var(variable1)
 	file.close()
 
-func _on_body_entered(body):
+func _on_body_entered(_body):
 	save_data()

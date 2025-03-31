@@ -47,6 +47,7 @@ func _physics_process(_delta):
 
 func _on_hurt_box_area_entered(_area):
 	#if area.name=="dashAttack":
+	$SoundManager/hit1.pitch_scale = randf_range(1, 0.9)
 	$SoundManager/hit1.play()
 	health -= 1
 	if health == 0:

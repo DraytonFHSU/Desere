@@ -19,11 +19,11 @@ signal healthChanged
 #various variables used in functions
 var lastAnimDirection: String = "Down"
 var isHurt: bool = false
-var attackType: String = "dash"
+var attackType: int = 0
+var isMoving: bool = false
 var isDashing: bool = false
 
 var moveDirection
-
 #normal movement
 func handleInput():
 	moveDirection = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down").normalized() #get 
@@ -38,15 +38,16 @@ func attackHandler():
 		#attack.dashAttack()
 	isDashing = true
 	animations.play("dash" + lastAnimDirection)
+	$SoundManager/dash1.pitch_scale = randf_range(1, 0.9)
 	$SoundManager/dash1.play()
-	attack.enable()
+	attack.enable(attackType)
 	collision_mask = 4 + 32 #bitwise for mask layers. 4 for undashable
 	velocity = moveDirection * speed * dashDistance
 	collision_mask = 1 + 4 + 32 #More easily seen here. enable layer 1 (player) and 
 	await animations.animation_finished #wait till animation is finished to end attack
 	animations.play("walk" + lastAnimDirection) #Corresponds to walkDown animation, etc.
 	animations.stop()
-	attack.disable()
+	attack.disable(attackType)
 	isDashing = false
 	
 func updateAnimation():
@@ -54,7 +55,9 @@ func updateAnimation():
 	if velocity.length() == 0: #stop player animation
 		if animations.is_playing():
 			animations.stop()
+			isMoving = false
 	else:
+		isMoving = true
 		var direction = "Down"
 		if velocity.x < 0: direction = "Left"
 		elif velocity.x > 0: direction = "Right"
@@ -63,15 +66,13 @@ func updateAnimation():
 		animations.play("walk" + direction) #Corresponds to walkDown animation, etc.
 		lastAnimDirection = direction
 
-#func handleCollision(): #legacy code?
-	#for i in get_slide_collision_count():
-		#var collision = get_slide_collision(i)
-		#var collider = collision.get_collider()
+func handleSound():
+	$SoundManager/grass1.pitch_scale = randf_range(1, 0.8)
+	$SoundManager/grass1.play()
 	
 func _physics_process(_delta):
 	handleInput()
 	move_and_slide()
-	#handleCollision()
 	updateAnimation()
 	if !isHurt:
 		for area in hurtBox.get_overlapping_areas():
@@ -101,3 +102,5 @@ func knockback(enemy_position):
 func _on_hurt_box_area_entered(area):
 	if area.has_method("collect"):
 		area.collect()
+		if attackType == 0:
+			attackType += 1 #immensly scuffed implementation. Drayton please fix at earliest convenience

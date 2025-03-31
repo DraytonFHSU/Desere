@@ -5,6 +5,11 @@ class_name BlasketStun
 var timer : Timer
 
 
+
+#temporarily unused. Too add to later when finishing blastkets last state
+
+
+
 # Upon moving to this state, initialize timer
 # and stun enemy
 func enter():

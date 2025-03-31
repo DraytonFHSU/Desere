@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b0euxsb7kxos"]
+[gd_scene load_steps=18 format=3 uid="uid://b0euxsb7kxos"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_ryha2"]
 [ext_resource type="Texture2D" uid="uid://ck8utj736yiuf" path="res://Art/World (Tilesets)/Environment-V3.png" id="2_6peu7"]
@@ -8,9 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://be0qh6ytkw0yn" path="res://Enemies/NumbSkull/numbSkull.tscn" id="4_rwl4h"]
 [ext_resource type="PackedScene" uid="uid://dmnd5ns0ir2av" path="res://Enemies/Zombie/zombie.tscn" id="5_odq8g"]
 [ext_resource type="PackedScene" uid="uid://l8i2et335fg6" path="res://Scenes/health_container.tscn" id="6_5b0bw"]
-[ext_resource type="Script" path="res://saveGame.gd" id="6_clcph"]
+[ext_resource type="Script" path="res://Scripts/saveGame.gd" id="6_clcph"]
 [ext_resource type="PackedScene" uid="uid://i08so72n5lu5" path="res://Scenes/scene_trigger.tscn" id="9_4k4uq"]
-[ext_resource type="PackedScene" uid="uid://cdl8jwoo1fm0x" path="res://Collectables/batBladeCollectable.tscn" id="11_42x7q"]
+[ext_resource type="PackedScene" uid="uid://btfolqrfc8pyh" path="res://Scenes/levelNameCard.tscn" id="11_nlk5u"]
+[ext_resource type="Script" path="res://Scripts/levelNameCard.gd" id="12_phd8a"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ycl7q"]
 texture = ExtResource("2_b5w7v")
@@ -377,6 +378,7 @@ size = Vector2(22, 23)
 [node name="MoonLight1" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_ryha2")
+levelName = "The Beginning"
 
 [node name="TileMap" type="TileMap" parent="."]
 y_sort_enabled = true
@@ -408,6 +410,8 @@ script = ExtResource("6_clcph")
 z_index = 1
 position = Vector2(0.75, -0.875)
 shape = SubResource("RectangleShape2D_45a01")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="TileMap"]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 7
@@ -456,8 +460,41 @@ drag_bottom_margin = 0.1
 script = ExtResource("3_jt4or")
 tilemap = NodePath("../TileMap")
 
-[node name="collectible" parent="." instance=ExtResource("11_42x7q")]
-position = Vector2(233, 154)
+[node name="levelDisplay" parent="." instance=ExtResource("11_nlk5u")]
+visible = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("12_phd8a")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -25.0
+offset_right = 150.0
+offset_bottom = 25.0
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+
+[node name="Panel" type="Panel" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+
+[node name="worldName" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Moonlight Meadow"
+
+[node name="sceneName" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "The Beginning"
+
+[node name="visibleTimer" type="Timer" parent="CanvasLayer"]
+wait_time = 3.0
+one_shot = true
+autostart = true
 
 [connection signal="body_entered" from="TileMap/Area2D" to="TileMap/Area2D" method="_on_body_entered"]
 [connection signal="ready" from="Player" to="." method="_on_player_ready"]
+[connection signal="timeout" from="CanvasLayer/visibleTimer" to="CanvasLayer" method="_on_visible_timer_timeout"]
